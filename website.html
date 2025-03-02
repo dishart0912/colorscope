@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ColorScope</title>
+    <!-- External CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  
+  <body id="body" class="font-poppins">
+    <!-- Back Button -->
+    <div class="fixed top-0 left-0 m-4 z-10">
+      <a href="index.html">
+        <button class="w-20 h-10 bg-indigo-700 hover:bg-indigo-400 text-white font-semibold text-xs py-1 px-3 rounded transition duration-200">
+          Back
+        </button>
+      </a>
+    </div>
+  
+    <header class="relative overflow-hidden">
+      <div class="container mx-auto px-4 py-8 md:py-16 flex flex-col md:flex-row items-center">
+        <div class="w-full md:w-1/2 mb-8 md:mb-0">
+          <div class="image-section relative">
+            <div class="imageContainer max-w-full overflow-hidden rounded-lg shadow-lg">
+              <img id="myImage" src="assets/78.jpg" class="w-full h-auto" alt="Sample image"/>
+            </div>
+            <div class="paletteContainer flex flex-wrap mt-4 gap-2 justify-center">
+              <!-- Color palette items -->
+              <div id="cluster1" class="palette w-8 h-8 rounded-full shadow-sm"></div>
+              <div id="cluster2" class="palette w-8 h-8 rounded-full shadow-sm"></div>
+              <div id="cluster3" class="palette w-8 h-8 rounded-full shadow-sm"></div>
+              <div id="cluster4" class="palette w-8 h-8 rounded-full shadow-sm"></div>
+              <div id="cluster5" class="palette w-8 h-8 rounded-full shadow-sm"></div>
+              <div id="cluster6" class="palette w-8 h-8 rounded-full shadow-sm"></div>
+              <div id="cluster7" class="palette w-8 h-8 rounded-full shadow-sm"></div>
+              <div id="cluster8" class="palette w-8 h-8 rounded-full shadow-sm"></div>
+              <div id="cluster9" class="palette w-8 h-8 rounded-full shadow-sm"></div>
+              <div id="cluster10" class="palette w-8 h-8 rounded-full shadow-sm"></div>
+              <div id="cluster11" class="palette w-8 h-8 rounded-full shadow-sm"></div>
+              <div id="cluster12" class="palette w-8 h-8 rounded-full shadow-sm"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="w-full md:w-1/2 md:pl-8">
+          <div class="text-center md:text-left">
+            <p class="text-gray-600 mb-2"><div id="color-info" class="color-info p-2 rounded"></div></p>
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">ColorScope</h1>
+            <p class="text-gray-600 mb-6">
+              We think data protection is important! No data is sent. The magic happens in your browser.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+              <div class="color-picker-section bg-white p-4 rounded-lg shadow-md">
+                <div id="picked-color-ref" class="color-ref w-full h-16 rounded-lg mb-4"></div>
+                <div id="result" class="hide">
+                  <div class="flex mb-2">
+                    <input type="text" placeholder="hex-code" class="flex-1 p-2 border rounded-l" id="hex-val-ref" />
+                    <button onclick="copy('hex-val-ref')" class="bg-indigo-600 text-white p-2 rounded-r">
+                      <i class="fa-regular fa-copy"></i>
+                    </button>
+                  </div>
+                  <div class="flex">
+                    <input type="text" placeholder="rgb-value" class="flex-1 p-2 border rounded-l" id="rgb-val-ref" />
+                    <button onclick="copy('rgb-val-ref')" class="bg-indigo-600 text-white p-2 rounded-r">
+                      <i class="fa-regular fa-copy"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="image-controls flex flex-col gap-2">
+                <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                <label for="imageInput" class="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded text-center cursor-pointer transition duration-200">Select Image</label> 
+                <button id="start-button" class="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded transition duration-200">Pick color</button>
+              </div>
+            </div>
+            <div id="custom-alert" class="fixed top-4 right-4 bg-green-500 text-white p-4 rounded shadow-lg transform transition-opacity opacity-0 duration-300">Color Code Copied!</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Gradient Generator Section -->
+    <section class="py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-4">Gradient Genius! 😎</h2>
+          <p class="text-gray-600">
+            Create your own spectrum of colors using our gradient genius.
+          </p>
+        </div>
+        
+        <div class="max-w-2xl mx-auto">
+          <div class="bg-white p-6 rounded-lg shadow-md">
+            <div class="gradient-box w-full h-40 rounded-lg mb-6"></div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              <div class="direction">
+                <p class="font-semibold mb-2">Direction</p>
+                <div class="select-box">
+                  <select class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option value="to top">Top</option>
+                    <option value="to right top">Right top</option>
+                    <option value="to right">Right</option>
+                    <option value="to right bottom">Right bottom</option>
+                    <option value="to bottom">Bottom</option>
+                    <option value="to left bottom">Left bottom</option>
+                    <option value="to left">Left</option>
+                    <option value="to left top" selected>Left top</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="palette">
+                <p class="font-semibold mb-2">Colors</p>
+                <div class="colors flex gap-4">
+                  <input type="color" value="#5665E9" class="w-20 h-10">
+                  <input type="color" value="#A271F8" class="w-20 h-10">
+                </div>
+              </div>
+            </div>
+            
+            <textarea class="w-full p-3 border rounded bg-gray-50 mb-6" disabled>background-image: linear-gradient(to left top, #977DFE, #6878FF);</textarea>
+            
+            <div class="flex flex-wrap gap-4">
+              <button class="refresh bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded transition duration-200">Refresh Colors</button>
+              <button class="copy bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded transition duration-200">Copy Code</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tint Generator Section -->
+    <section class="py-16 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-2xl mx-auto">
+          <div class="ts-form text-center mb-8">
+            <form class="pure-form" id="color-entry-form" action="#" method="post" name="color-entry-form">
+              <div class="mb-4">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Colorful Tint Generator!</h2>
+                <div class="form-warning text-red-500 hidden" id="warning">Please enter at least one valid hex color.</div>
+              </div>
+              
+              <div class="ts-input mb-4">
+                <textarea id="color-values" name="color-values" class="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500" 
+                  autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" 
+                  placeholder="Enter hex colors (separated by spaces)"></textarea>
+              </div>
+              
+              <input id="make" class="button bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-6 rounded cursor-pointer transition duration-200" 
+                type="submit" value="Make tints and shades" />
+            </form>
+          </div>
+          
+          <div id="ts-scroll-top"></div>
+          
+          <div class="ts-colors">
+            <div id="tints-and-shades" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- How to Use Section -->
+    <section class="py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold">How to use ColorScope?</h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-white p-6 rounded-lg shadow-md text-center">
+            <img src="assets/1.WEBP" class="w-32 h-32 object-cover mx-auto mb-4 rounded-full" alt="Upload Image">
+            <h3 class="text-xl font-semibold mb-2">Upload Your Image</h3>
+            <div class="text-gray-600">Use "Select Image" Button to select image from your device</div>
+          </div>
+    
+          <div class="bg-white p-6 rounded-lg shadow-md text-center">
+            <img src="assets/2.WEBP" class="w-32 h-32 object-cover mx-auto mb-4 rounded-full" alt="Pick Color">
+            <h3 class="text-xl font-semibold mb-2">Pick Color From Image</h3>
+            <div class="text-gray-600">Use "Pick Color" button to pick the desired color. Then click on any part of the image to select color</div>
+          </div>
+    
+          <div class="bg-white p-6 rounded-lg shadow-md text-center">
+            <img src="assets/3.WEBP" class="w-32 h-32 object-cover mx-auto mb-4 rounded-full" alt="Copy Color">
+            <h3 class="text-xl font-semibold mb-2">Copy Color Code</h3>
+            <div class="text-gray-600">Instantly receive the color code in your preferred format and copy it</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Subscribe Section -->
+    <section class="py-16 bg-indigo-600 text-white">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+          <div class="text-center md:text-left">
+            <h2 class="text-3xl md:text-4xl font-bold mb-2">Subscribe to get updates</h2>
+            <p class="opacity-80">
+              Explore the world of colors with our state-of-the-art color detection technology..🎨
+            </p>
+          </div>
+          
+          <div class="w-full md:w-auto">
+            <form class="flex flex-col sm:flex-row gap-2">
+              <input type="email" placeholder="Your email here" class="p-3 rounded-lg text-gray-800 w-full focus:outline-none focus:ring-2 focus:ring-indigo-300" />
+              <button class="bg-white text-indigo-600 font-semibold py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-200" type="submit">Send</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-gray-800 text-white">
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <h3 class="text-2xl font-bold mb-4">ColorScope<span class="text-indigo-400">.</span></h3>
+            <p class="text-gray-300">
+              Enhance your visual experiences with our state-of-the-art color detection technology.
+            </p>
+          </div>
+          
+          <div class="text-center md:text-left">
+            <a href="contactus1.php" class="text-lg hover:text-indigo-300 transition duration-200">
+              <p>Contact Us</p>
+            </a> 
+          </div>
+          
+          <div>
+            <h4 class="text-xl font-semibold mb-4">Address</h4>
+            <p class="mb-2 text-gray-300">
+              <span class="font-semibold">Address:</span> IOPE, Lonere
+            </p>
+            <p class="mb-2 text-gray-300">
+              <span class="font-semibold">Email:</span> colorscope2024@gmail.com
+            </p>
+            <p class="text-gray-300">
+              <span class="font-semibold">Phone:</span> +91 1234567890
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+      // Replace the existing eyedropper code with this mobile-friendly version
+document.getElementById("start-button").addEventListener("click", () => {
+  const resultElement = document.getElementById("result");
+  let hexValRef = document.getElementById("hex-val-ref");
+  let rgbValRef = document.getElementById("rgb-val-ref");
+  let pickedColorRef = document.getElementById("picked-color-ref");
+  let image = document.getElementById("myImage");
+  
+  // Check if EyeDropper API is available (desktop browsers)
+  if (window.EyeDropper) {
+    const eyeDropper = new EyeDropper();
+    
+    eyeDropper.open()
+      .then((colorValue) => {
+        let hexValue = colorValue.sRGBHex;
+        
+        // Convert Hex Value To RGB
+        let rgbArr = [];
+        for (let i = 1; i < hexValue.length; i += 2) {
+          rgbArr.push(parseInt(hexValue[i] + hexValue[i + 1], 16));
+        }
+        let rgbValue = "rgb(" + rgbArr + ")";
+        
+        // Show results
+        resultElement.classList.remove("hide");
+        hexValRef.value = hexValue;
+        rgbValRef.value = rgbValue;
+        pickedColorRef.style.backgroundColor = hexValue;
+      })
+      .catch((e) => {
+        // Fallback to canvas-based picker if eyedropper fails
+        enableImageColorPicker();
+      });
+  } else {
+    // Mobile fallback - canvas-based color picker
+    enableImageColorPicker();
+  }
+  
+  // Function to enable canvas-based image color picker
+  function enableImageColorPicker() {
+    // Add a visual indicator that image is now clickable
+    image.classList.add("picker-active");
+    
+    // Show a message to the user
+    const message = document.createElement("div");
+    message.id = "picker-message";
+    message.className = "text-center p-2 mb-4 bg-indigo-100 text-indigo-700 rounded";
+    message.innerHTML = "👆 Tap anywhere on the image to pick a color";
+    
+    // Insert message before the image container
+    const imageContainer = document.querySelector(".imageContainer");
+    imageContainer.parentNode.insertBefore(message, imageContainer);
+    
+    // Add one-time click handler to the image
+    const handleImageClick = function(e) {
+      const rect = image.getBoundingClientRect();
+      const x = (e.clientX - rect.left) * (image.naturalWidth / rect.width);
+      const y = (e.clientY - rect.top) * (image.naturalHeight / rect.height);
+      
+      // Create canvas to extract pixel data
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = image.naturalWidth;
+      canvas.height = image.naturalHeight;
+      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+      
+      // Get pixel color
+      try {
+        const pixel = ctx.getImageData(x, y, 1, 1).data;
+        const r = pixel[0];
+        const g = pixel[1];
+        const b = pixel[2];
+        
+        // Convert to hex
+        const hexValue = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        const rgbValue = `rgb(${r}, ${g}, ${b})`;
+        
+        // Show results
+        resultElement.classList.remove("hide");
+        hexValRef.value = hexValue;
+        rgbValRef.value = rgbValue;
+        pickedColorRef.style.backgroundColor = hexValue;
+        
+        // Clean up
+        image.classList.remove("picker-active");
+        const message = document.getElementById("picker-message");
+        if (message) message.remove();
+        
+        // Remove this event listener
+        image.removeEventListener("click", handleImageClick);
+      } catch (error) {
+        console.error("Error picking color:", error);
+      }
+    };
+    
+    image.addEventListener("click", handleImageClick);
+  }
+});
+
+// Add this to the existing document.addEventListener('DOMContentLoaded'...
+document.addEventListener('DOMContentLoaded', function() {
+  // Add CSS for the image picker functionality
+  const style = document.createElement('style');
+  style.textContent += `
+    .picker-active {
+      cursor: crosshair !important;
+      box-shadow: 0 0 0 4px #6366F1 !important;
+      transition: all 0.2s ease;
+    }
+    
+    #picker-message {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { opacity: 0.8; }
+      50% { opacity: 1; }
+      100% { opacity: 0.8; }
+    }
+    
+    /* Color wheel for mobile devices */
+    .color-wheel {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: none;
+      z-index: 1000;
+    }
+    
+    /* Media query for mobile devices */
+    @media (max-width: 768px) {
+      #start-button::before {
+        content: "Pick Color";
+      }
+    }
+  `;
+  document.head.appendChild(style);
+});
+      // Color info on mousemove
+      document.addEventListener('DOMContentLoaded', function() {
+        const image = document.getElementById('myImage');
+        const colorInfo = document.getElementById('color-info');
+        
+        if (image) {
+          image.addEventListener('mousemove', function(event) {
+            const canvas = document.createElement('canvas');
+            canvas.width = image.width;
+            canvas.height = image.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(image, 0, 0, image.width, image.height);
+            
+            const x = event.offsetX;
+            const y = event.offsetY;
+            
+            const pixel = ctx.getImageData(x, y, 1, 1).data; 
+            const rgb = `${pixel[0]},${pixel[1]},${pixel[2]}`;
+            
+            colorInfo.textContent = `Color at (${x}, ${y}): RGB(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+            colorInfo.style.backgroundColor = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+            colorInfo.style.color = (pixel[0] + pixel[1] + pixel[2] > 382) ? '#000' : '#fff';
+          });
+        }
+      });
+      
+      // Image upload functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const imageInput = document.getElementById('imageInput');
+        const myImage = document.getElementById('myImage');
+        
+        if (imageInput && myImage) {
+          imageInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = function(e) {
+                myImage.src = e.target.result;
+              };
+              reader.readAsDataURL(file);
+            }
+          });
+        }
+      });
+      
+      // Copy functionality
+      function copy(elementId) {
+        const element = document.getElementById(elementId);
+        element.select();
+        document.execCommand("copy");
+        
+        // Show custom alert
+        const customAlert = document.getElementById('custom-alert');
+        customAlert.style.opacity = '1';
+        setTimeout(() => {
+          customAlert.style.opacity = '0';
+        }, 2000);
+      }
+      
+      // Gradient generator functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const gradientBox = document.querySelector(".gradient-box");
+        const selectMenu = document.querySelector(".select-box select");
+        const colorInputs = document.querySelectorAll(".colors input");
+        const textarea = document.querySelector("textarea");
+        const refreshBtn = document.querySelector(".refresh");
+        const copyBtn = document.querySelector(".copy");
+        
+        const getRandomColor = () => {
+          const randomHex = Math.floor(Math.random() * 0xffffff).toString(16);
+          return `#${randomHex.padStart(6, "0")}`;
+        }
+        
+        const generateGradient = (isRandom) => {
+          if(isRandom) {
+            colorInputs[0].value = getRandomColor();
+            colorInputs[1].value = getRandomColor();
+          }
+          
+          const gradient = `linear-gradient(${selectMenu.value}, ${colorInputs[0].value}, ${colorInputs[1].value})`;
+          gradientBox.style.background = gradient;
+          textarea.value = `background-image: ${gradient};`;
+        }
+        
+        const copyCode = () => {
+          navigator.clipboard.writeText(textarea.value);
+          copyBtn.innerText = "Code Copied";
+          setTimeout(() => copyBtn.innerText = "Copy Code", 1600);
+        }
+        
+        colorInputs.forEach(input => {
+          input.addEventListener("input", () => generateGradient(false));
+        });
+        
+        selectMenu.addEventListener("change", () => generateGradient(false));
+        refreshBtn.addEventListener("click", () => generateGradient(true));
+        copyBtn.addEventListener("click", copyCode);
+        
+        generateGradient(true);
+      });
+      
+      // Tint and shade generator functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        if (document.getElementById('make')) {
+          document.getElementById('make').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const colorValues = document.getElementById('color-values').value.trim();
+            if (!colorValues) {
+              document.getElementById('warning').classList.remove('hidden');
+              return;
+            }
+            
+            document.getElementById('warning').classList.add('hidden');
+            const colors = colorValues.split(/\s+/);
+            let validColors = [];
+            
+            colors.forEach(color => {
+              // Simple validation - could be improved
+              if (color.startsWith('#') && (color.length === 4 || color.length === 7)) {
+                validColors.push(color);
+              } else if (color.match(/^[0-9A-Fa-f]{3}$/) || color.match(/^[0-9A-Fa-f]{6}$/)) {
+                validColors.push('#' + color);
+              }
+            });
+            
+            if (validColors.length === 0) {
+              document.getElementById('warning').classList.remove('hidden');
+              return;
+            }
+            
+            // Generate tints and shades
+            const tintsAndShades = document.getElementById('tints-and-shades');
+            tintsAndShades.innerHTML = '';
+            
+            validColors.forEach(color => {
+              const colorSet = document.createElement('div');
+              colorSet.className = 'color-set mb-8';
+              
+              const colorHeading = document.createElement('h3');
+              colorHeading.className = 'text-lg font-bold mb-2';
+              colorHeading.textContent = color;
+              colorSet.appendChild(colorHeading);
+              
+              // Generate tints (lighter versions)
+              for (let i = 9; i >= 1; i--) {
+                const tint = calculateTint(color, i * 10);
+                addColorBox(colorSet, tint, `${100 - i * 10}%`);
+              }
+              
+              // Base color
+              addColorBox(colorSet, color, 'Base');
+              
+              // Generate shades (darker versions)
+              for (let i = 1; i <= 9; i++) {
+                const shade = calculateShade(color, i * 10);
+                addColorBox(colorSet, shade, `${i * 10}%`);
+              }
+              
+              tintsAndShades.appendChild(colorSet);
+            });
+          });
+          
+          function hexToRgb(hex) {
+            // Remove # if present
+            hex = hex.replace('#', '');
+            
+            // Convert 3-digit hex to 6-digits
+            if (hex.length === 3) {
+              hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+            }
+            
+            const r = parseInt(hex.substring(0, 2), 16);
+            const g = parseInt(hex.substring(2, 4), 16);
+            const b = parseInt(hex.substring(4, 6), 16);
+            
+            return { r, g, b };
+          }
+          
+          function rgbToHex(r, g, b) {
+            return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+          }
+          
+          function calculateTint(color, percent) {
+            const { r, g, b } = hexToRgb(color);
+            const tintR = Math.round(r + (255 - r) * (percent / 100));
+            const tintG = Math.round(g + (255 - g) * (percent / 100));
+            const tintB = Math.round(b + (255 - b) * (percent / 100));
+            return rgbToHex(tintR, tintG, tintB);
+          }
+          
+          function calculateShade(color, percent) {
+            const { r, g, b } = hexToRgb(color);
+            const shadeR = Math.round(r * (1 - percent / 100));
+            const shadeG = Math.round(g * (1 - percent / 100));
+            const shadeB = Math.round(b * (1 - percent / 100));
+            return rgbToHex(shadeR, shadeG, shadeB);
+          }
+          
+          function addColorBox(container, color, label) {
+            const colorBox = document.createElement('div');
+            colorBox.className = 'flex items-center mb-2';
+            
+            const colorSwatch = document.createElement('div');
+            colorSwatch.className = 'w-12 h-12 rounded mr-2 cursor-pointer hex-color';
+            colorSwatch.style.backgroundColor = color;
+            colorSwatch.setAttribute('data-clipboard-text', color);
+            colorSwatch.title = 'Click to copy';
+            
+            const colorInfo = document.createElement('div');
+            colorInfo.className = 'flex items-center justify-between w-full';
+            
+            const colorLabel = document.createElement('span');
+            colorLabel.className = 'text-sm';
+            colorLabel.textContent = label;
+            
+            const colorValue = document.createElement('code');
+            colorValue.className = 'text-xs bg-gray-100 p-1 rounded';
+            colorValue.textContent = color;
+            
+            colorInfo.appendChild(colorLabel);
+            colorInfo.appendChild(colorValue);
+            
+            colorBox.appendChild(colorSwatch);
+            colorBox.appendChild(colorInfo);
+            container.appendChild(colorBox);
+            
+            // Add click to copy functionality
+            colorSwatch.addEventListener('click', function() {
+              navigator.clipboard.writeText(color);
+              colorSwatch.classList.add('copied');
+              setTimeout(() => colorSwatch.classList.remove('copied'), 1500);
+            });
+          }
+        }
+      });
+      // Add this code to your JavaScript file or inside a script tag at the end of your HTML
+
+document.addEventListener('DOMContentLoaded', function() {
+  const imageInput = document.getElementById('imageInput');
+  const myImage = document.getElementById('myImage');
+  
+  if (imageInput && myImage) {
+    imageInput.addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          myImage.src = e.target.result;
+          myImage.onload = function() {
+            generateColorPalette(myImage);
+          };
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+    
+    // Also generate palette for the initial image
+    if (myImage.complete) {
+      generateColorPalette(myImage);
+    } else {
+      myImage.onload = function() {
+        generateColorPalette(myImage);
+      };
+    }
+  }
+  
+  // Function to generate color palette using simple color quantization
+  function generateColorPalette(image) {
+    // Create canvas and draw image
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Set canvas size proportional to image but limit pixels for performance
+    const maxPixels = 100000; // Limit analysis to reasonable number of pixels
+    const aspectRatio = image.width / image.height;
+    
+    let scaledWidth, scaledHeight;
+    if (image.width * image.height > maxPixels) {
+      scaledWidth = Math.sqrt(maxPixels * aspectRatio);
+      scaledHeight = maxPixels / scaledWidth;
+    } else {
+      scaledWidth = image.width;
+      scaledHeight = image.height;
+    }
+    
+    canvas.width = scaledWidth;
+    canvas.height = scaledHeight;
+    
+    // Draw image to canvas
+    ctx.drawImage(image, 0, 0, scaledWidth, scaledHeight);
+    
+    // Get pixel data
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const pixels = imageData.data;
+    
+    // Collect all pixels (ignoring fully transparent ones)
+    const colors = [];
+    for (let i = 0; i < pixels.length; i += 4) {
+      const r = pixels[i];
+      const g = pixels[i + 1];
+      const b = pixels[i + 2];
+      const a = pixels[i + 3];
+      
+      if (a >= 125) { // Only consider non-transparent pixels
+        colors.push([r, g, b]);
+      }
+    }
+    
+    // Simple color quantization using a frequency map approach
+    const colorMap = {};
+    const colorPrecision = 24; // Lower number = fewer but more distinct colors
+    
+    // Group similar colors
+    colors.forEach(color => {
+      const r = Math.round(color[0] / colorPrecision) * colorPrecision;
+      const g = Math.round(color[1] / colorPrecision) * colorPrecision;
+      const b = Math.round(color[2] / colorPrecision) * colorPrecision;
+      
+      const key = `${r},${g},${b}`;
+      if (!colorMap[key]) {
+        colorMap[key] = 1;
+      } else {
+        colorMap[key]++;
+      }
+    });
+    
+    // Sort colors by frequency
+    const sortedColors = Object.entries(colorMap)
+      .map(([key, count]) => {
+        const [r, g, b] = key.split(',').map(Number);
+        return { r, g, b, count };
+      })
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 12); // Get top 12 colors
+    
+    // Update palette
+    sortedColors.forEach((color, index) => {
+      const paletteElement = document.getElementById(`cluster${index + 1}`);
+      if (paletteElement) {
+        const hexColor = rgbToHex(color.r, color.g, color.b);
+        paletteElement.style.backgroundColor = hexColor;
+        paletteElement.setAttribute('data-color', hexColor);
+        paletteElement.setAttribute('title', hexColor);
+        
+        // Add click functionality to copy the color
+        paletteElement.addEventListener('click', function() {
+          const hexVal = this.getAttribute('data-color');
+          const rgbVal = `rgb(${color.r}, ${color.g}, ${color.b})`;
+          
+          // Update the color display
+          const pickedColorRef = document.getElementById('picked-color-ref');
+          const hexValRef = document.getElementById('hex-val-ref');
+          const rgbValRef = document.getElementById('rgb-val-ref');
+          const resultElement = document.getElementById('result');
+          
+          if (pickedColorRef && hexValRef && rgbValRef && resultElement) {
+            pickedColorRef.style.backgroundColor = hexVal;
+            hexValRef.value = hexVal;
+            rgbValRef.value = rgbVal;
+            resultElement.classList.remove('hide');
+          }
+        });
+      }
+    });
+  }
+  
+  // Convert RGB to Hex
+  function rgbToHex(r, g, b) {
+    return '#' + [r, g, b].map(x => {
+      const hex = x.toString(16);
+      return hex.length === 1 ? '0' + hex : hex;
+    }).join('');
+  }
+});
+
+// Make sure we have the copy function defined
+function copy(elementId) {
+  const element = document.getElementById(elementId);
+  if (element) {
+    element.select();
+    document.execCommand("copy");
+    
+    // Show custom alert
+    const customAlert = document.getElementById('custom-alert');
+    if (customAlert) {
+      customAlert.style.opacity = '1';
+      customAlert.style.display = 'block';
+      setTimeout(() => {
+        customAlert.style.opacity = '0';
+        setTimeout(() => {
+          customAlert.style.display = 'none';
+        }, 300);
+      }, 2000);
+    }
+  }
+}
+
+// Add some CSS for the custom alert and palette items
+document.addEventListener('DOMContentLoaded', function() {
+  // Add some stylesheet rules programmatically
+  const style = document.createElement('style');
+  style.textContent = `
+    .palette {
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 2px solid transparent;
+    }
+    .palette:hover {
+      transform: scale(1.1);
+      border: 2px solid #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    .hide {
+      display: none;
+    }
+    #custom-alert {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+  `;
+  document.head.appendChild(style);
+});
+    </script>
+  </body>
+</html>

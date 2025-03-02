@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ColorScope</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./output.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .animated-text {
+            color: transparent;
+            -webkit-text-stroke: 1px #fff;
+            background: url("./assets/backk.png");
+            -webkit-background-clip: text;
+            background-position: 0 0;
+            animation: back 20s linear infinite;
+        }
+
+        @keyframes back {
+            100% {
+                background-position: 2000px 0;
+            }
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            z-index: 1;
+        }
+
+        .content h1 {
+            font-size: clamp(30px, 6vw, 70px);
+            margin: 0;
+            padding: 70px 0;
+            font-weight: 600;
+            color: transparent;
+            -webkit-text-stroke: 1px #fff;
+            background: url("./assets/backk.png");
+            -webkit-background-clip: text;
+            background-position: 0 0;
+            animation: back 20s linear infinite;
+        }
+
+        .version-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body class="overflow-hidden">
+    <div class="relative w-full h-screen">
+        <!-- Video background -->
+        <video autoplay loop muted playsinline class="absolute top-0 left-0 w-full h-full object-cover">
+            <source src="./assets/bg-vid.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+        </video>
+
+        
+
+        <!-- nav-bar -->
+        <nav class="relative w-full flex justify-between items-center p-5 bg-blue-950 bg-opacity-50 text-white">
+            <a href="#" id="brand" class="flex gap-2 items-center">
+                <div class="text-xl font-bold">ColorScope</div>
+            </a>
+            <div id="nav-menu" class="hidden md:flex gap-12 items-center">
+                <a href="#" class="font-medium hover:text-blue-500 transition-colors">Home</a>
+                <a href="#" class="font-medium hover:text-blue-500 transition-colors">Contact Us</a>
+                <a href="#" class="font-medium hover:text-blue-500 transition-colors">About Us</a>
+                <a href="#" class="font-medium hover:text-blue-500 transition-colors">Our Team</a>
+            </div>
+            <button class="p-2 md:hidden" onclick="handleMenu()">
+                <i class="fa fa-bars"></i>
+            </button>
+        </nav>
+
+        <!-- Mobile menu -->
+        <div id="nav-dialog" class="hidden absolute top-[4rem] left-0 w-full bg-white shadow-lg z-40">
+            <div class="mt-6">
+                <a href="#" class="text-gray-800 font-medium m-3 p-3 hover:text-blue-500 block rounded-lg transition-colors">Home</a>
+                <a href="#" class="text-gray-800 font-medium m-3 p-3 hover:text-blue-500 block rounded-lg transition-colors">Contact Us</a>
+                <a href="#" class="text-gray-800 font-medium m-3 p-3 hover:text-blue-500 block rounded-lg transition-colors">About Us</a>
+                <a href="#" class="text-gray-800 font-medium m-3 p-3 hover:text-blue-500 block rounded-lg transition-colors">Our Team</a>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <main class="content relative flex-1 text-white px-4 z-10">
+            <div class="max-w-2xl mx-auto">
+                <h1 class=" animated-text">Welcome to ColorScope</h1>
+                <p class="text-xl mb-8">Enhance your visual experiences with our state-of-the-art color detection technology.</p>
+                <div class="version-container">
+                    <div class="flex gap-2 items-center rounded-lg px-3 py-1 bg-blue-500 shadow-md hover:shadow-lg hover:translate-y-1 transition group">
+                        <div class="w-2 h-2 bg-blue-300 rounded-full border-white"></div>
+                        <a href="loading.html" class="font-display font-medium text-white"><span class="text-white">Explore Now</span></a>
+                        <i class="fa fa-arrow-right text-white group-hover:translate-x-1 transition duration-300"></i>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function handleMenu() {
+            const navDialog = document.getElementById('nav-dialog');
+            navDialog.classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>
